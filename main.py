@@ -149,7 +149,33 @@ def parens_match_dc(mylist):
     return n_unmatched_left==0 and n_unmatched_right==0
 
 def parens_match_dc_helper(mylist):
+    c = 0
+    r = 0
+    if len(mylist) <= 2:
+        for i in mylist:
+            # print(i)
+            # print(c)
+            if i == '(':
+                c += 1
+            if i == ')':
+                c += -1
+            if c < 0 and i == ')':
+                r += 1
+            # print(f'i = {i}, c = {c}, r = {r}')
+        return (r,r+c)
+    else:
+        lr, ll = parens_match_dc_helper(mylist[:len(mylist)//2])
+        rr, rl = parens_match_dc_helper(mylist[len(mylist)//2:])
+        return (lr+rl,ll-rr)
+
+    # if c!= 0:
+    #     r = c-l
+
+    # print()
+    # print(c)
+    # print(l)
     
+
 
     """
     Recursive, divide and conquer solution to the parens match problem.
@@ -161,9 +187,28 @@ def parens_match_dc_helper(mylist):
     """
     ###TODO
     pass
-    
+
+# print(parens_match_dc_helper(')'))
+
+# print(parens_match_dc_helper('(9)'))
+# print(parens_match_dc_helper('())))'))
+# print(parens_match_dc_helper(['(',  '(', '(', ')', ')', ')']))
+# print(parens_match_dc_helper(['(','a', ')', ')', 'b', '(']))
 
 def test_parens_match_dc():
     assert parens_match_dc(['(', ')']) == True
     assert parens_match_dc(['(']) == False
     assert parens_match_dc([')']) == False
+    assert parens_match_dc(['(', ')']) == True
+    assert parens_match_dc(['(','a', ')', ')', 'b', '(']) == False
+    assert parens_match_dc(['(']) == False
+    assert parens_match_dc([')']) == False
+    assert parens_match_dc(['(']) == False
+    assert parens_match_dc([')']) == False
+    assert parens_match_dc(['(',  '(', '(', ')', ')', ')']) == True
+    assert parens_match_dc(['(', '(', ')']) == False
+    assert parens_match_dc(['(', 'a', ')', ')', '(']) == False
+    assert parens_match_dc(['(', ')']) == True
+    assert parens_match_dc(['(', 'a', ')', '(', ')']) == True
+
+test_parens_match_dc()
